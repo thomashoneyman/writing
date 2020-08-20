@@ -173,10 +173,11 @@ That's all we need for a standard PureScript setup. But using `create-react-app`
 
 ### 3. Integrate PureScript into our create-react-app setup
 
-First, we're going to install {{< external-link "https://github.com/gsoft-inc/craco" "craco" >}} ("Create React App Configuration Override"), which will allow us to tweak our `create-react-app` settings to support PureScript.
+First, we're going to install {{< external-link "https://github.com/gsoft-inc/craco" "craco" >}} ("Create React App Configuration Override") and its PureScript loader, which will allow us to tweak our `create-react-app` settings to support PureScript.
 
 ```sh
 npm install --save @craco/craco
+npm install --save-dev craco-purescript-loader
 ```
 
 Add a `craco.config.js` file in the root of the repository with these contents:
