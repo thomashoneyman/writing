@@ -1,0 +1,6 @@
+Constructor,Optic Constructed,Characteristics
+`lens'`,`Lens' s a`,"Creates a lens given a pair of functions to get and set the focus value `a` within the structure `s`"
+`at`,`At s key a =>`<br>&nbsp;&nbsp;`Lens' s (Maybe a)`,"Creates a lens for keyed data structures like variable-size maps and sets where you need to support adding and removing elements, not just getting and setting existing ones."
+`prism'`,`Prism' s a`,"Creates a prism given a pair of functions to construct `s` given an `a` (called the constructor) or to (possibly) retrieve an `a` given an `s` (called the matcher)."
+`ix`,`Index s index a =>`<br>&nbsp;&nbsp;`Traversal' s a`,"Given an index, creates a traversal for a structure `s`, indexed by type `index` and focusing on type `a`. The traversal will focus on just that index (if it exists), within an indexed structure like an array, map, or list. It does not support creating or removing elements and is therefore used for fixed-size collections."
+`iso`,`Iso' s a`,"Creates an iso from a function which transforms `s` into `a` and another which transforms `a` into `s`"

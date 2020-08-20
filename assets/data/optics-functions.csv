@@ -1,0 +1,11 @@
+Function,Meaning,Lenses,Prisms,Traversals,Isos
+`view`,"get one `a` from `s`, where `a` must exist",✓,Rarely,Rarely,✓
+`set`,overwrite `a` in `s`,✓,✓,✓,
+`over`,modify `a` in `s` with a function `(a -> a)`,✓,✓,✓,
+`preview`,"get one `a` from `s`, where `a` may not exist",,✓,✓,
+`is`,"check if it is possible to retrieve `a` from `s`",,✓,,
+`review`,produce an `s` given an `a`,,✓,,✓
+`foldOf`,"collapse the collection `s` to a single value `a`",,,✓,
+`firstOf`,"get the first `a` from a collection `s`, where `a` may not exist",,,✓,
+`lastOf`,"get the last `a` from a collection `s`, where `a` may not exist",,,✓,
+`toListOf`,change the structure `s` into a list,,,✓,

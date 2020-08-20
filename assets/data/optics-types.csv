@@ -1,0 +1,5 @@
+Optic,Meaning,Commonly Used For
+`Lens' s a`,The type `s` contains a value of type `a`.,Product types like records and tuples.
+`Prism' s a`,"The type `s` contains zero or one value of type `a`, and `a` is sufficient to produce an `s`.",Sum types like `Maybe` and `Either`.
+`Traversal' s a`,"The type `s` contains zero, one, or many values of type `a`.","Collections like arrays, maps, and any other member of the `Traversable` type class. They are also a more general form of lenses and prisms; traversals which focus on at most one element (like lenses, prisms, and their composition) are called **affine** traversals."
+`Iso' s a`,"The types `s` and `a` are isomorphic: an `s` is sufficient to produce an `a` and vice versa.","Newtypes, interchangeable structures like `Array` and `List`, and any other pair of types which can be converted back and forth without losing information."
