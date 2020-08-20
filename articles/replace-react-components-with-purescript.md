@@ -276,8 +276,8 @@ import React.Basic.Hooks as Hooks
 
 type Props = { label :: String }
 
-counter :: Component Props
-counter = component "Counter" \props -> Hooks.do
+mkCounter :: Component Props
+mkCounter = component "Counter" \props -> Hooks.do
   count /\ setCount <- useState' 0
 
   pure do
@@ -290,7 +290,7 @@ counter = component "Counter" \props -> Hooks.do
       ]
 ```
 
-In a PureScript codebase this is all we need; we could use this component by importing `counter` and providing it with its props. We can almost use this component in JavaScript, too, but we need to take one more step.
+In a PureScript codebase this is all we need; we could use this component by importing `mkCounter` and providing it with its props. We can almost use this component in JavaScript, too, but we need to take one more step.
 
 Component creation is inherently effectful, which means that we need to run this effect to have a component ready to import into JavaScript. We'll talk more about how PureScript represents effects later when we dive deeper into the interop module.
 
@@ -309,10 +309,10 @@ For the time being we'll use `unsafePerformEffect` to run the effect that create
  import React.Basic.Hooks as Hooks
 @@ -13,2 +14,5 @@ type Props = { label :: String }
 
-+mkCounter :: Props -> JSX
-+mkCounter = unsafePerformEffect counter
++jsCounter :: Props -> JSX
++jsCounter = unsafePerformEffect counter
 +
- counter :: Component Props
+ mkCounter :: Component Props
 ```
 
 Now we can import this component directly into our existing `App.js` file. Note how we only have to change the import, nothing else! PureScript compiles our code to the `output` directory, and our configuration makes those modules importable directly into our JavaScript files.
@@ -323,7 +323,7 @@ Now we can import this component directly into our existing `App.js` file. Note 
 @@ -1,5 +1,5 @@
  import React from "react";
 -import Counter from "./components/Counter";
-+import { mkCounter as Counter } from "./MyApp/Components/Counter.purs";
++import { jsCounter as Counter } from "./MyApp/Components/Counter.purs";
  import "./App.css";
 
  const App = () => {
@@ -381,9 +381,9 @@ Typically, each interop module will contain at least these parts:
 
 1. A JavaScript-compatible interface for our props (`JSProps`)
 2. A function for converting from the JavaScript interface to richer PureScript types (`jsPropsToProps`)
-3. A function to export our component for JavaScript, which will use the JavaScript interface and convert it internally to the PureScript interface (`mkCounter`)
+3. A function to export our component for JavaScript, which will use the JavaScript interface and convert it internally to the PureScript interface (`counter`)
 
-Delete `mkCounter` from the existing `Counter` component so that the PureScript file doesn't have any code to accommodate JavaScript. Then, write a new interop module with these contents:
+Delete `jsCounter` from the existing `Counter` component so that the PureScript file doesn't have any code to accommodate JavaScript. Then, write a new interop module with these contents:
 
 ```hs
 module MyApp.Components.Counter.Interop where
@@ -401,8 +401,8 @@ type JSProps = { label :: Nullable String }
 jsPropsToProps :: JSProps -> Props
 jsPropsToProps { label } = { label: fromMaybe "Click away!" $ toMaybe label }
 
-mkCounter :: JSProps -> JSX
-mkCounter = unsafePerformEffect counter <<< jsPropsToProps
+jsCounter :: JSProps -> JSX
+jsCounter = unsafePerformEffect counter <<< jsPropsToProps
 ```
 
 We have created a new interface for our component, `JSProps`, which will be used in JavaScript instead of our PureScript interface, `Props`. We've also created a function which translates between the two interfaces, and produced a new component which uses the JavaScript interface instead of the PureScript one.
@@ -418,8 +418,8 @@ Now let's update our existing code to accommodate the change. Update the import 
 +++ b/src/App.js
 @@ -1,5 +1,5 @@
  import React from "react";
--import { mkCounter as Counter } from "./MyApp/Components/Counter.purs";
-+import { mkCounter as Counter } from "./MyApp/Components/Counter/Interop.purs";
+-import { jsCounter as Counter } from "./MyApp/Components/Counter.purs";
++import { jsCounter as Counter } from "./MyApp/Components/Counter/Interop.purs";
  import "./App.css";
 
  const App = () => {
@@ -479,8 +479,8 @@ We can apply the same process to accommodate the new features. We will write idi
 +  "decrementer" -> Just Decrementer
 +  _ -> Nothing
 
- counter :: Component Props
- counter = component "Counter" \props -> Hooks.do
+ mkCounter :: Component Props
+ mkCounter = component "Counter" \props -> Hooks.do
    count /\ setCount <- useState' 0
 
 +  let
@@ -544,7 +544,7 @@ I'll make the code changes first and describe them afterwards:
 +      fromMaybe Incrementer $ counterTypeFromString =<< toMaybe props.counterType
 +  }
 
- mkCounter :: JSProps -> JSX
+ jsCounter :: JSProps -> JSX
 ```
 
 First, I updated the JavaScript interface to include the two new fields our component accepts.
