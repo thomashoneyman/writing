@@ -21,3 +21,7 @@ Currently, my site supports the following shortcodes:
 - `{{< external-link "https://example.com" "link text" >}}` is used to include external links in markdown (it adds an icon to indicate this is an external link).
 - `{{< table src="data.csv" class="className" >}}` is used to build tables from CSV data located in the `data` directory. It creates headers for the first row in the CSV and table rows for each row afterwards.
 - `{{< subscribe >}}` is used to insert an email subscription block
+
+## License
+
+Copyright © 2018-2020 Thomas Honeyman
