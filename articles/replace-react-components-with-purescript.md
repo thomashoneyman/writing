@@ -595,13 +595,13 @@ const log = (str) => console.log(str);
 Without using `EffectFn1`, JavaScript code using our counter component would have to supply a thunked callback function like this:
 
 ```jsx
-<Counter onClick={(count) => () => console.log("clicked: ", n)} />
+<Counter onClick={(n) => () => console.log("clicked: ", n)} />
 ```
 
 With `EffectFn1` in place, however, we can provide usual code:
 
 ```jsx
-<Counter onClick={(count) => console.log("clicked: ", n)} />
+<Counter onClick={(n) => console.log("clicked: ", n)} />
 ```
 
 Let's take advantage of our new component features by updating `App.js`. Our first component will omit all props except for the `onClick` callback, which will log the count to the console. The next one will specify a decrementing counter. The last component will stick to the original interface and just provide a label.
