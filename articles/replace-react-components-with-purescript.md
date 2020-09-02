@@ -393,7 +393,7 @@ import Prelude
 import Data.Maybe (fromMaybe)
 import Data.Nullable (Nullable, toMaybe)
 import Effect.Unsafe (unsafePerformEffect)
-import MyApp.Components.Counter (Props, counter)
+import MyApp.Components.Counter (Props, mkCounter)
 import React.Basic (JSX)
 
 type JSProps = { label :: Nullable String }
@@ -402,7 +402,7 @@ jsPropsToProps :: JSProps -> Props
 jsPropsToProps { label } = { label: fromMaybe "Click away!" $ toMaybe label }
 
 jsCounter :: JSProps -> JSX
-jsCounter = unsafePerformEffect counter <<< jsPropsToProps
+jsCounter = unsafePerformEffect mkCounter <<< jsPropsToProps
 ```
 
 We have created a new interface for our component, `JSProps`, which will be used in JavaScript instead of our PureScript interface, `Props`. We've also created a function which translates between the two interfaces, and produced a new component which uses the JavaScript interface instead of the PureScript one.
