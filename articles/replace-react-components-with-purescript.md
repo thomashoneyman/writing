@@ -310,7 +310,7 @@ For the time being we'll use `unsafePerformEffect` to run the effect that create
 @@ -13,2 +14,5 @@ type Props = { label :: String }
 
 +jsCounter :: Props -> JSX
-+jsCounter = unsafePerformEffect counter
++jsCounter = unsafePerformEffect mkCounter
 +
  mkCounter :: Component Props
 ```
