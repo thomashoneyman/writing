@@ -84,7 +84,7 @@ useWindowWidth
 ```
 
 1. A `Hook` is a (possibly) stateful function which can run effects from some monad `m`, uses a particular set of hooks, and returns a value.
-2. Our Hook type, `UseWindowWidth` specifies what Hooks are used internally. The Hooks library will verify the correct Hooks were used in the correct order in the implementation.
+2. Our Hook type, `UseWindowWidth`, specifies what Hooks are used internally. The Hooks library will verify the correct Hooks were used in the correct order in the implementation.
 3. This `Hook` returns a `Maybe Int`: the current window width.
 
 Now let's turn to our implementation, taken from the {{< external-link "https://github.com/thomashoneyman/purescript-halogen-hooks/blob/master/examples/Example/Hooks/UseWindowWidth.purs" "full implementation" >}} in the Hooks examples:
