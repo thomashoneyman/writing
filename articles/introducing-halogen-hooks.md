@@ -63,13 +63,12 @@ Hooks are functions that can opt in to component features like state, side effec
 * We need to use local state to persist the window width
 * We need to use a side effect to subscribe to window events when the component initializes and unsubscribe when it finalizes.
 
-We can capture those two features using a newtype, which will also be used to uniquely identify our new Hook.
+We can capture those two features using a type synonym:
 
 ```hs
-newtype UseWindowWidth hooks =
-  UseWindowWidth (UseEffect (UseState (Maybe Int) hooks))
+import Halogen.Hooks
 
-derive instance newtypeUseWindowWidth :: Newtype (UseWindowWidth hooks) _
+type UseWindowWidth = UseState (Maybe Int) <> UseEffect <> Hooks.Pure
 ```
 
 This type represents using local state of the type `Maybe Int`, and then using a side effect. If we needed to, we could use more independent states and effects, or mix in other Hook types.
@@ -85,13 +84,13 @@ useWindowWidth
 ```
 
 1. A `Hook` is a (possibly) stateful function which can run effects from some monad `m`, uses a particular set of hooks, and returns a value.
-2. Our Hook type, `UseWindowWidth`, uniquely identifies this Hook and specifies what Hooks are used internally. The Hooks library will unwrap this newtype and verify the correct Hooks were used in the correct order in the implementation.
+2. Our Hook type, `UseWindowWidth` specifies what Hooks are used internally. The Hooks library will verify the correct Hooks were used in the correct order in the implementation.
 3. This `Hook` returns a `Maybe Int`: the current window width.
 
 Now let's turn to our implementation, taken from the {{< external-link "https://github.com/thomashoneyman/purescript-halogen-hooks/blob/master/examples/Example/Hooks/UseWindowWidth.purs" "full implementation" >}} in the Hooks examples:
 
 ```hs
-useWindowWidth = Hooks.wrap Hooks.do
+useWindowWidth = Hooks.do
   width /\ widthId <- Hooks.useState Nothing -- [1]
 
   Hooks.useLifecycleEffect do -- [2]
