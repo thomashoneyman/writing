@@ -168,9 +168,9 @@ The short version of all this is that a little boilerplate here will allow us to
 ```hs
 instance LogMessagesHalogenM
   :: LogMessages m
-  => LogMessages (HalogenM s f g p o m)
+  => LogMessages (HalogenM state action slots output m)
   where
-    log l s = lift (log l s)
+  log l s = lift (log l s)
 ```
 
 And that's it! We can now represent the ability of a monad to log messages. We could even give instances for monads like `Effect` and `Aff` here if we wanted to. Instead, in our next step, we'll implement the core logic for logging messages as pure functions, and then we'll implement our own monad that represents our application as the domain.

@@ -26,7 +26,7 @@ At this point, we've spent a lot of time carefully designing pure functions and 
 A component like this one is has fully-encapsulated state and an event loop, but (until it is run by Halogen, the underlying implementation) it is pure:
 
 ```hs
-myComponent :: forall m. Component HTML Query Input Message m
+myComponent :: forall m. Component HTML Query Input Output m
 ```
 
 You can't necessarily reason about its ultimate effects, because at some point it will run and interact with the DOM. However, you _can_ reason about what effects it performs directly: none! You receive the same advantages as you do from using pure functions throughout your code. For example, you can [test this component as a state machine](http://qfpl.io/posts/intro-to-state-machine-testing-1/).
@@ -34,7 +34,7 @@ You can't necessarily reason about its ultimate effects, because at some point i
 We can give this component access to the capabilities we've designed by adding constraints:
 
 ```hs
-myComponent :: forall m. LocalStorage m => Component HTML Query Input Message m
+myComponent :: forall m. LocalStorage m => Component HTML Query Input Output m
 ```
 
 Your component can now access your pure functions defined in your local storage capability and use it as part of its behaviors.
@@ -71,18 +71,6 @@ There are only two design patterns that provide true reuse in this sense of the 
 
 - Higher-order components are a common pattern in the React community and refer to components that take a component as an argument, augment it with new behaviors and state, and return the new, augmented component.
 - Renderless components have no existing render function at all, and allow you to extend a component with new behaviors and state via a parent component which provides the render function. For various reasons renderless components are more common — at least in open source.
-
-#### Building your own renderless components
-
-I gave [a talk about renderless components](https://www.youtube.com/watch?v=igWrktC0m7E) at Los Angeles PureScript, and another about reusable components at LambdaConf 2018. These talks expand on the motivation for these kinds of components and helps explain how to implement them.
-
-In addition, **Renderless** is a library for [designing and implementing renderless components](https://github.com/thomashoneyman/purescript-halogen-renderless). It provides:
-
-- helpers for working with a `Store` comonad as your component state
-- minimal starting templates for your own renderless components
-- guides and best practices to help you design components in this style
-
-If you need some inspiration, try exploring [Formless](https://github.com/thomashoneyman/purescript-halogen-formless) and [Select](https://github.com/citizennet/purescript-halogen-select), two open-source Halogen components that use the renderless style.
 
 ## A Brief Review Of Performance Considerations
 

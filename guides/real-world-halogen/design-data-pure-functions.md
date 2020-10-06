@@ -64,8 +64,9 @@ data Route
   | Settings
 
 navigate :: Route -> Effect Unit
-navigate Home = setHashTo "home"
-navigate Settings = setHashTo "settings"
+navigate = case _ of
+  Home -> setHashTo "home"
+  Settings -> setHashTo "settings"
 ```
 
 Much better! We can now never accidentally provide a route that doesn't exist to our `navigate` function, and while the function could still perform all kinds of side effects, the fact that it takes a `Route` as an argument is a good hint as to its purpose. We'll take this approach to write our Conduit routes.
