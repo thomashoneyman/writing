@@ -193,7 +193,7 @@ A given function is compatible with only some optic types, which is part of what
 
 {{< table src="optics-functions.csv" class="opticsFunctions" >}}
 
-These functions are more nuanced than ths table allows for; they're explained in much greater depth (and with examples) in the later lens, prism, traversal, and iso sections.
+These functions are more nuanced than the table allows for; they're explained in much greater depth (and with examples) in the later lens, prism, traversal, and iso sections.
 
 #### 3. Constructors
 
@@ -394,7 +394,7 @@ But we can now do more than we could with an ordinary lens: we can also insert a
 insertTim :: forall a. a -> Map String a -> Map String a
 insertTim = set _Tim <<< Just
 
-> set _tim (Just 45) (Map.singleton "John" 20 ])
+> set _Tim (Just 45) (Map.singleton "John" 20)
 fromFoldable [ Tuple "John" 20, Tuple "Tim" 45 ]
 
 -- In contrast, providing a `Nothing` value will delete the key (if it exists).
