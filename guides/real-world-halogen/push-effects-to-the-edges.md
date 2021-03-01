@@ -283,20 +283,19 @@ We'd like our monad to support two logging modes:
 -- Our instance
 instance logMessagesAppM :: LogMessages AppM where
   log logType str = do
-  env <- ask
-
-  let shouldOutput
+    env <- ask
+    let
+      shouldOutput
         | env.logLevel == Production && logType == Error = true
         | env.logLevel == Testing = true
         | otherwise = false
-
-  writeLog :: Message -> AppM Unit
-  writeLog msg = do case env.logLevel of
-    Testing -> liftEffect $ Console.log $ unwrap msg
-    Production -> liftAff $ sendToExternalService msg
-
-  when shouldOutput do
-    logMessage (liftEffect nowDateTime) writeLog logType str
+      writeLog :: Message -> AppM Unit
+      writeLog msg = do
+        case env.logLevel of
+          Testing -> liftEffect $ Console.log $ unwrap msg
+          Production -> liftAff $ sendToExternalService msg
+    when shouldOutput do
+      logMessage (liftEffect nowDateTime) writeLog logType str
 ```
 
 The beauty of these instances is that our logging capability is decoupled from its implementation in `AppM`. If we decided to start writing logs to local storage instead of an external service, or we started sending them to a new service with new credentials, or we need to disable them for a while, we can do any of that by tweaking our instance without ever touching the rest of our code.
