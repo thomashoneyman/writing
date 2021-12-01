@@ -54,10 +54,10 @@ At the time of writing, `create-react-app` produces these React and TypeScript d
 
 ```json
 "dependencies": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3",
-    "typescript": "^3.7.5"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "typescript": "^4.5.2"
   }
 ```
 
@@ -128,7 +128,7 @@ First we need to install PureScript tooling: the compiler itself, `purs`, as wel
 
 ```sh
 # Install the compiler and the Spago package manager
-npm install --save-dev purescript@0.13.8 spago@0.16.0
+npm install --save-dev purescript@0.14.5 spago@0.20.3
 ```
 
 ### 2. Initialize the PureScript project
@@ -145,13 +145,13 @@ If you would like to use the same package set as I use in this article, update y
 
 ```dhall
 let upstream =
-      https://github.com/purescript/package-sets/releases/download/psc-0.13.8-20200724/packages.dhall sha256:bb941d30820a49345a0e88937094d2b9983d939c9fd3a46969b85ce44953d7d9
+      https://github.com/purescript/package-sets/releases/download/psc-0.14.5-20211116/packages.dhall sha256:7ba810597a275e43c83411d2ab0d4b3c54d0b551436f4b1632e9ff3eb62e327a
 ```
 
 Future versions of Spago will support initializing with this package set directly with the `--tag` flag, but this feature is unreleased at the time of writing:
 
 ```sh
-npx spago init --tag psc-0.13.8-20200724
+npx spago init --tag psc-0.14.5-20211116
 ```
 
 Next, before we install anything, add these entries to the existing `.gitignore` file to cover PureScript:
@@ -204,7 +204,7 @@ Update your `package.json` to call `craco` instead of `react-scripts`:
 --- a/package.json
 +++ b/package.json
 @@ -17,10 +17,10 @@
-     "typescript": "^3.7.5"
+     "typescript": "^4.5.2"
    },
    "scripts": {
 -    "start": "react-scripts start",
