@@ -237,7 +237,7 @@ _2 :: forall a b. Lens' (Tuple a b) b
 -- This lens focuses on the "name" field of a record; we have to construct
 -- this one ourselves.
 _name :: forall a r. Lens' { name :: a | r } a
-_name = prop (SProxy :: SProxy "name")
+_name = prop (Proxy :: Proxy "name")
 ```
 
 I will use these to demonstrate the common lens functions `view`, `set`, and `over`. Then, I'll show you how to construct lenses for your types by implementing the above optics from scratch.
@@ -338,13 +338,13 @@ Let's construct a few record lenses, including `_name`, using `prop`.
 
 ```hs
 _name :: forall a r. Lens' { name :: a | r } a
-_name = prop (SProxy :: SProxy "name")
+_name = prop (Proxy :: Proxy "name")
 
 _age :: forall a r. Lens' { age :: a | r } a
-_age = prop (SProxy :: SProxy "age")
+_age = prop (Proxy :: Proxy "age")
 
 _location :: forall a r. Lens' { location :: a | r } a
-_location = prop (SProxy :: SProxy "location")
+_location = prop (Proxy :: Proxy "location")
 ```
 
 ### Related Classes: The `At` Lens
@@ -579,7 +579,7 @@ traversed :: forall t a. Traversable t => Traversal' (t a) a
 -- This affine traversal is the composition of lenses and prisms we've already
 -- seen. Composing a lens and a prism will produce an affine traversal.
 _city :: forall a b r. Traversal' (Maybe { city :: Maybe a | r }) a
-_city = _Just <<< prop (SProxy :: _ "city") <<< _Just
+_city = _Just <<< prop (Proxy :: _ "city") <<< _Just
 ```
 
 ### Common Functions For Working With Traversals
